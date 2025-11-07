@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SIENIU3D WebAR – markerless demo</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+    <style>
+      html, body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+      }
+      model-viewer {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, #000 0%, #111 100%);
+      }
+      #ar-button {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #ff7a00;
+        color: #000;
+        border: none;
+        padding: 12px 28px;
+        font-size: 1.1rem;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 0 20px rgba(255, 122, 0, 0.6);
+      }
+      #ar-button:hover {
+        background: #ffa040;
+      }
+    </style>
+  </head>
+  <body>
+    <model-viewer
+      src="https://cdn.jsdelivr.net/gh/openai-examples/assets@main/models/sieniu3d_logo.glb"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      camera-controls
+      tone-mapping="neutral"
+      shadow-intensity="1"
+      exposure="1"
+      auto-rotate
+      alt="SIENIU3D logo AR"
+      xr-environment
+      environment-image="neutral"
+      poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+      style="--poster-color: transparent;">
+      <button id="ar-button" slot="ar-button">Wejdź w AR</button>
+    </model-viewer>
+
+    <script>
+      // Prosty efekt kolorystyczny na logo (pomarańczowo-czarny efekt SIENIU3D)
+      const viewer = document.querySelector('model-viewer');
+      viewer.addEventListener('load', () => {
+        const material = viewer.model.materials[0];
+        if (material && material.pbrMetallicRoughness) {
+          material.pbrMetallicRoughness.setBaseColorFactor([1, 0.4, 0, 1]);
+          material.pbrMetallicRoughness.metallicFactor = 1.0;
+          material.pbrMetallicRoughness.roughnessFactor = 0.3;
+        }
+      });
+    </script>
+  </body>
+</html>
